@@ -68,7 +68,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 	}//
 
 	@Override
-	public T fjern(T element) { //Denne skal vi se på litt senere
+	public T fjern(T element) { //Denne skal vi se pï¿½ litt senere
 
 		if (erTom())
 			throw new EmptyCollectionException("mengde");
@@ -80,7 +80,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 			resultat = start.getElement();
 			start = start.getNeste();
 			antall--;
-		} else {// Gjennomgår den kjedete strukturen
+		} else {// Gjennomgï¿½r den kjedete strukturen
 			forgjenger = start;
 			aktuell = start.getNeste();
 			for (int sok = 2; sok <= antall && !funnet; sok++) {
@@ -99,7 +99,7 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		}
 		return resultat;
 
-	}//
+	}
 
 	@Override
 	public boolean inneholder(T element) {
@@ -114,12 +114,12 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		}
 		return funnet;
 	}
+
 	/*
-	 * Når vi overkjører (override) equals- meteoden er det anbefalt at vi også
-	 * overkjører hashcode-metoden da en del biblioteker bruker hascode sammen med
+	 * Nï¿½r vi overkjï¿½rer (override) equals- meteoden er det anbefalt at vi ogsï¿½
+	 * overkjï¿½rer hashcode-metoden da en del biblioteker bruker hascode sammen med
 	 * equals. Vi kommer tilbake til forklaring og bruk av hashcode senere i faget.
 	 */
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -143,14 +143,18 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		}
 		boolean likeMengder = true;
 		MengdeADT<T> m2 = (KjedetMengde<T>) ny;
+
 		if (this.antall != m2.antall()) {
 			likeMengder = false;
 		} else {
 			Iterator<T> teller = m2.iterator();
-
-			//Fyll ut
+			while (teller.hasNext() && likeMengder) {
+				if (!this.inneholder(teller.next())) {
+					likeMengder = false;
+				}
+			}
 		}
-		return true;// Midlertidig
+		return likeMengder;
 	}
 
 	@Override
@@ -165,19 +169,20 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 
 
 	@Override
-	public MengdeADT<T> union (MengdeADT<T> m2) { // Denne ersattes med en mer effektiv union, se kladdeoppgavenr3
+	public MengdeADT<T> union (MengdeADT<T> m2) {
 		KjedetMengde<T> begge = new KjedetMengde<T>();
 	    LinearNode<T> aktuell = start;
-	    while (aktuell != null) {    
+
+		while (aktuell != null) {
 	          begge.leggTil (aktuell.getElement());
-	          aktuell = aktuell.getNeste();   //this-mengden
-	    }//while
+	          aktuell = aktuell.getNeste();
+	    }
 	    Iterator<T> teller = m2.iterator();
 	    while (teller.hasNext()){
 	           begge.leggTil (teller.next());
-	     }   
+	     }
 	    return begge;
-	}//
+	} n
 
 	@Override
 	public MengdeADT<T> snitt(MengdeADT<T> m2) {
@@ -224,5 +229,4 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		start = nyNode;
 		antall++;
 	}
-
-}// class
+}
